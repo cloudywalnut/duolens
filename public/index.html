@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Duo Lens — Wedding & Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --off-black: #111111;
+    --dark: #1a1a1a;
+    --mid: #2a2a2a;
+    --white: #f5f0eb;
+    --off-white: #ede8e1;
+    --gold: #c9a84c;
+    --gold-light: #e2c47a;
+    --gold-dark: #a07830;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Montserrat', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+    opacity: 0.6;
+  }
+  .cursor.hover { width: 20px; height: 20px; }
+  .cursor-ring.hover { width: 60px; height: 60px; opacity: 0.3; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 60px;
+    transition: background 0.4s ease, padding 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(12px);
+    padding: 18px 60px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 44px; list-style: none; }
+  .nav-links a {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245,240,235,0.7);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 12px 28px;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    z-index: 0;
+  }
+  .hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    filter: brightness(0.45);
+    transform: scale(1.05);
+    animation: heroZoom 12s ease-out forwards;
+  }
+  @keyframes heroZoom {
+    from { transform: scale(1.08); }
+    to { transform: scale(1.0); }
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(10,10,10,0.95) 0%,
+      rgba(10,10,10,0.3) 50%,
+      rgba(10,10,10,0.1) 100%
+    );
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 60px 100px;
+    max-width: 900px;
+  }
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.4s forwards;
+  }
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.2rem, 7vw, 7rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+  .hero-title em { color: var(--gold); font-style: italic; }
+  .hero-sub {
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.9;
+    letter-spacing: 0.05em;
+    color: rgba(245,240,235,0.65);
+    max-width: 520px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.8s forwards;
+  }
+  .hero-actions {
+    display: flex; gap: 20px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 1s ease 1s forwards;
+  }
+  .btn-primary {
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    background: var(--gold);
+    color: var(--black);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.3s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    border: 1px solid rgba(245,240,235,0.35);
+    color: var(--white);
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Secondary hero image */
+  .hero-aside {
+    position: absolute; right: 60px; bottom: 80px;
+    width: 260px; height: 360px;
+    z-index: 2;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.25);
+    opacity: 0;
+    animation: fadeIn 1.2s ease 1.2s forwards;
+  }
+  .hero-aside img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85) grayscale(20%);
+  }
+  .hero-aside::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 50%);
+    z-index: 1;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ─── TICKER ─── */
+  .ticker-wrap {
+    background: var(--gold);
+    overflow: hidden;
+    padding: 14px 0;
+    border-top: none;
+  }
+  .ticker-inner {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    display: inline-flex; align-items: center; gap: 24px;
+    padding-right: 60px;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--black);
+    font-weight: 600;
+  }
+  .ticker-dot {
+    width: 5px; height: 5px;
+    background: var(--black);
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── ABOUT ─── */
+  .about {
+    padding: 130px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    background: var(--off-black);
+    position: relative;
+    overflow: hidden;
+  }
+  .about::before {
+    content: 'DUOLENS';
+    position: absolute;
+    font-family: var(--font-serif);
+    font-size: 18rem;
+    font-weight: 600;
+    color: rgba(201,168,76,0.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: -0.05em;
+  }
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+  .about-text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 4vw, 3.6rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 28px;
+    color: var(--white);
+  }
+  .about-text h2 em { color: var(--gold); font-style: italic; }
+  .about-text p {
+    font-size: 0.82rem;
+    line-height: 1.95;
+    color: rgba(245,240,235,0.6);
+    margin-bottom: 20px;
+    letter-spacing: 0.03em;
+  }
+  .gold-line {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 32px 0;
+  }
+  .about-images {
+    position: relative;
+    height: 560px;
+  }
+  .about-img-main {
+    position: absolute;
+    top: 0; right: 0;
+    width: 75%; height: 85%;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .about-img-main img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(15%) brightness(0.85);
+    transition: transform 0.8s ease;
+  }
+  .about-img-main:hover img { transform: scale(1.04); }
+  .about-img-secondary {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 48%; height: 50%;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.3);
+    outline: 1px solid rgba(201,168,76,0.08);
+    outline-offset: 8px;
+  }
+  .about-img-secondary img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(25%) brightness(0.8);
+    transition: transform 0.8s ease;
+  }
+  .about-img-secondary:hover img { transform: scale(1.04); }
+  .about-badge {
+    position: absolute;
+    bottom: 30px; right: 10px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 16px 20px;
+    text-align: center;
+    z-index: 2;
+  }
+  .about-badge .number {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 600;
+    line-height: 1;
+    display: block;
+  }
+  .about-badge .label {
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ─── PORTFOLIO ─── */
+  .portfolio {
+    padding: 130px 60px;
+    background: var(--black);
+  }
+  .portfolio-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 60px;
+  }
+  .portfolio-header h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.1;
+  }
+  .portfolio-header h2 em { color: var(--gold); font-style: italic; }
+  .portfolio-header p {
+    font-size: 0.78rem;
+    color: rgba(245,240,235,0.5);
+    max-width: 300px;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+  .p-item {
+    overflow: hidden;
+    position: relative;
+    cursor: none;
+  }
+  .p-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(20%) brightness(0.8);
+    transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease;
+  }
+  .p-item:hover img { transform: scale(1.06); filter: grayscale(0%) brightness(0.9); }
+  .p-item::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .p-item:hover::after { opacity: 1; }
+  .p-item-label {
+    position: absolute; bottom: 20px; left: 20px;
+    z-index: 2;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .p-item:hover .p-item-label { opacity: 1; transform: translateY(0); }
+  .p-item-border {
+    position: absolute; inset: 0;
+    border: 1px solid rgba(201,168,76,0);
+    transition: border-color 0.4s;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .p-item:hover .p-item-border { border-color: rgba(201,168,76,0.4); }
+
+  /* Grid placements */
+  .p1 { grid-column: 1 / 6; grid-row: 1; height: 480px; }
+  .p2 { grid-column: 6 / 9; grid-row: 1; height: 480px; }
+  .p3 { grid-column: 9 / 13; grid-row: 1; height: 480px; }
+  .p4 { grid-column: 1 / 5; grid-row: 2; height: 360px; }
+  .p5 { grid-column: 5 / 9; grid-row: 2; height: 360px; }
+  .p6 { grid-column: 9 / 13; grid-row: 2; height: 360px; }
+
+  /* ─── SERVICES ─── */
+  .services {
+    padding: 130px 60px;
+    background: var(--off-black);
+    position: relative;
+  }
+  .services-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .services-header h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300;
+    color: var(--white);
+    margin-top: 12px;
+  }
+  .services-header h2 em { color: var(--gold); font-style: italic; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.12);
+  }
+  .service-card {
+    background: var(--off-black);
+    padding: 52px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-card:hover { background: rgba(201,168,76,0.04); }
+  .service-number {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: rgba(201,168,76,0.12);
+    line-height: 1;
+    margin-bottom: 32px;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-number { color: rgba(201,168,76,0.25); }
+  .service-icon {
+    width: 44px; height: 44px;
+    margin-bottom: 24px;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+  .service-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+  .service-card p {
+    font-size: 0.78rem;
+    line-height: 1.9;
+    color: rgba(245,240,235,0.5);
+    letter-spacing: 0.03em;
+  }
+
+  /* ─── INSTAGRAM ─── */
+  .instagram {
+    padding: 130px 60px;
+    background: var(--black);
+  }
+  .instagram-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  .instagram-header h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    color: var(--white);
+  }
+  .instagram-header h2 em { color: var(--gold); font-style: italic; }
+  .ig-handle {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.4);
+    padding-bottom: 3px;
+    transition: border-color 0.3s;
+  }
+  .ig-handle:hover { border-color: var(--gold); }
+  .instagram-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .ig-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+  }
+  .ig-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(30%) brightness(0.75);
+    transition: transform 0.6s ease, filter 0.5s ease;
+  }
+  .ig-item:hover img { transform: scale(1.08); filter: grayscale(0%) brightness(0.9); }
+  .ig-overlay {
+    position: absolute; inset: 0;
+    background: rgba(10,10,10,0.5);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .ig-item:hover .ig-overlay { opacity: 1; }
+  .ig-overlay svg { color: var(--gold); width: 28px; height: 28px; opacity: 0.9; }
+
+  /* ─── CONTACT ─── */
+  .contact {
+    padding: 130px 60px;
+    background: var(--off-black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 24px;
+    margin-top: 12px;
+  }
+  .contact-text h2 em { color: var(--gold); font-style: italic; }
+  .contact-text p {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: rgba(245,240,235,0.55);
+    margin-bottom: 40px;
+    letter-spacing: 0.03em;
+  }
+  .contact-detail {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 20px;
+  }
+  .contact-detail-icon {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-detail-icon svg { width: 16px; height: 16px; color: var(--gold); }
+  .contact-detail-info span {
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,235,0.35);
+    margin-bottom: 4px;
+  }
+  .contact-detail-info a, .contact-detail-info p {
+    font-size: 0.82rem;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s;
+    letter-spacing: 0.03em;
+    margin: 0;
+  }
+  .contact-detail-info a:hover { color: var(--gold); }
+
+  .contact-form-area { position: relative; }
+  .contact-form-area .form-group { margin-bottom: 20px; }
+  .contact-form-area label {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,240,235,0.4);
+    margin-bottom: 10px;
+  }
+  .contact-form-area input,
+  .contact-form-area textarea,
+  .contact-form-area select {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: none;
+    border-bottom: 1px solid rgba(245,240,235,0.15);
+    padding: 14px 0 14px 16px; /* change the last 0 to 16px */
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+    border-radius: 0;
+  }
+  .contact-form-area input:focus,
+  .contact-form-area textarea:focus,
+  .contact-form-area select:focus {
+    border-bottom-color: var(--gold);
+  }
+  .contact-form-area textarea { height: 100px; resize: none; }
+  .contact-form-area select option { background: var(--dark); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-submit {
+    margin-top: 8px;
+    width: 100%;
+    padding: 18px;
+    background: var(--gold);
+    border: none;
+    color: var(--black);
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 60px 60px 40px;
+  }
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand .logo-text {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    display: block;
+    margin-bottom: 16px;
+  }
+  .footer-brand .logo-text span { color: var(--gold); }
+  .footer-brand p {
+    font-size: 0.78rem;
+    line-height: 1.85;
+    color: rgba(245,240,235,0.4);
+    max-width: 280px;
+    letter-spacing: 0.03em;
+  }
+  .footer-col h4 {
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 12px; }
+  .footer-col ul li a {
+    font-size: 0.78rem;
+    color: rgba(245,240,235,0.4);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.3s;
+  }
+  .footer-col ul li a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 32px;
+    border-top: 1px solid rgba(245,240,235,0.06);
+  }
+  .footer-bottom p {
+    font-size: 0.68rem;
+    color: rgba(245,240,235,0.25);
+    letter-spacing: 0.08em;
+  }
+  .footer-bottom p span { color: var(--gold); }
+  .footer-socials { display: flex; gap: 20px; }
+  .footer-socials a {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .footer-socials a:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+  .footer-socials svg { width: 14px; height: 14px; color: rgba(245,240,235,0.5); }
+  .footer-socials a:hover svg { color: var(--gold); }
+
+  /* ─── DIVIDER ─── */
+  .gold-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.3;
+    margin: 0 60px;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 28px; }
+    nav.scrolled { padding: 16px 28px; }
+    .nav-links, .nav-cta { display: none; }
+    .hero-content { padding: 0 28px 80px; }
+    .hero-aside { display: none; }
+    .about { grid-template-columns: 1fr; padding: 80px 28px; gap: 50px; }
+    .portfolio { padding: 80px 28px; }
+    .portfolio-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .p1,.p2,.p3,.p4,.p5,.p6 { grid-column: auto; grid-row: auto; height: 240px; }
+    .services { padding: 80px 28px; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .instagram { padding: 80px 28px; }
+    .instagram-row { grid-template-columns: repeat(3, 1fr); }
+    .contact { grid-template-columns: 1fr; padding: 80px 28px; gap: 60px; }
+    footer { padding: 50px 28px 32px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+    .gold-divider { margin: 0 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ─── NAVBAR ─── -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Duo<span>Lens</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book Now</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=2000&q=80&fm=jpg&fit=crop" alt="Wedding photography" loading="eager" />
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Wedding &amp; Portrait Photography</p>
+    <h1 class="hero-title">Your Story,<br />Told From<br /><em>Every Angle</em></h1>
+    <p class="hero-sub">Two creatives. One seamless story. We capture both photo and video so nothing gets missed—from the big highlights to the quiet in-betweens.</p>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn-primary">View Work</a>
+      <a href="#about" class="btn-ghost">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-aside">
+    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80&fm=jpg&fit=crop" alt="Wedding detail" />
+  </div>
+</section>
+
+<!-- ─── TICKER ─── -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <!-- Repeated twice for seamless loop -->
+    <span class="ticker-item">Weddings <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Portraits <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Events <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Brand Content <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Photo + Video <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Elopements <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Corporate <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Weddings <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Portraits <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Events <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Brand Content <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Photo + Video <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Elopements <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Corporate <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<!-- ─── ABOUT ─── -->
+<section class="about" id="about">
+  <div class="about-text">
+    <p class="section-label reveal">About Us</p>
+    <h2 class="reveal reveal-delay-1">Two Creatives,<br /><em>One Story</em></h2>
+    <div class="gold-line reveal reveal-delay-2"></div>
+    <p class="reveal reveal-delay-2">Some moments happen in front of you. Others happen quietly in between. With our Duo Lens coverage, there are two of us—so while one captures the main moment, the other is focused on everything else.</p>
+    <p class="reveal reveal-delay-3">The reactions, the energy, the little details you didn't even realise were happening. Whether it's a wedding, an event, or content for your brand, moments move fast. Having two creatives means nothing gets missed.</p>
+    <p class="reveal reveal-delay-4">Not just photos. Your story—felt, replayed, and remembered.</p>
+    <div style="margin-top:40px;" class="reveal reveal-delay-4">
+      <a href="#contact" class="btn-primary">Work With Us</a>
+    </div>
+  </div>
+  <div class="about-images reveal reveal-delay-2">
+    <div class="about-img-main">
+      <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80&fm=jpg&fit=crop" alt="Wedding photography" />
+    </div>
+    <div class="about-img-secondary">
+      <img src="https://images.unsplash.com/photo-1590831563685-8d94f056f68f?q=80&w=1069&auto=format&fit=crop" alt="Wedding detail ring" />
+    </div>
+    <div class="about-badge">
+      <span class="number">8+</span>
+      <span class="label">Years of<br />Excellence</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PORTFOLIO ─── -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <p class="section-label reveal">Portfolio</p>
+      <h2 class="reveal reveal-delay-1">Recent <em>Work</em></h2>
+    </div>
+    <p class="reveal reveal-delay-2">A glimpse into the moments we've been trusted to preserve forever.</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="p-item p1 reveal">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80&fm=jpg&fit=crop&crop=faces" alt="Wedding ceremony" />
+      <div class="p-item-label">Wedding Ceremony</div>
+      <div class="p-item-border"></div>
+    </div>
+    <div class="p-item p2 reveal reveal-delay-1">
+      <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=800&q=80&fm=jpg&fit=crop" alt="Wedding couple portrait" />
+      <div class="p-item-label">Couple Portrait</div>
+      <div class="p-item-border"></div>
+    </div>
+    <div class="p-item p3 reveal reveal-delay-2">
+      <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=1000&q=80&fm=jpg&fit=crop" alt="Wedding reception" />
+      <div class="p-item-label">Reception</div>
+      <div class="p-item-border"></div>
+    </div>
+    <div class="p-item p4 reveal reveal-delay-1">
+      <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=80&fm=jpg&fit=crop" alt="Bride portrait" />
+      <div class="p-item-label">Bridal Portrait</div>
+      <div class="p-item-border"></div>
+    </div>
+    <div class="p-item p5 reveal reveal-delay-2">
+      <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1000&q=80&fm=jpg&fit=crop" alt="Wedding details" />
+      <div class="p-item-label">Wedding Details</div>
+      <div class="p-item-border"></div>
+    </div>
+    <div class="p-item p6 reveal reveal-delay-3">
+      <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800&q=80&fm=jpg&fit=crop" alt="Ceremony moment" />
+      <div class="p-item-label">The Ceremony</div>
+      <div class="p-item-border"></div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ─── SERVICES ─── -->
+<section class="services" id="services">
+  <div class="services-header">
+    <p class="section-label reveal" style="justify-content:center;">What We Do</p>
+    <h2 class="reveal reveal-delay-1">Built For <em>Every Moment</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-number">01</div>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <h3>Weddings</h3>
+      <p>Two perspectives capturing every emotion—from the ceremony to the quiet moments in between. Nothing missed, everything felt.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-number">02</div>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <h3>Events</h3>
+      <p>Full coverage that keeps pace with the energy. Corporate launches, galas, private gatherings—captured from every angle.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-number">03</div>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <h3>Brand Content</h3>
+      <p>Visual storytelling for your brand. Product launches, lifestyle shoots, social media content that stands apart.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-number">04</div>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+      </svg>
+      <h3>Photo + Video</h3>
+      <p>Seamless dual-format capture. Your story isn't just seen—it's felt, replayed, and remembered across every medium.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── INSTAGRAM ─── -->
+<section class="instagram" id="instagram">
+  <div class="instagram-header">
+    <div>
+      <p class="section-label reveal">Follow Along</p>
+      <h2 class="reveal reveal-delay-1">On <em>Instagram</em></h2>
+    </div>
+    <a href="https://www.instagram.com/duolens.official" target="_blank" class="ig-handle reveal reveal-delay-2">@duolens.official</a>
+  </div>
+  <div class="instagram-row">
+    <a class="ig-item reveal" href="https://www.instagram.com/duolens.official" target="_blank">
+      <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&q=80&fm=jpg&fit=crop" alt="Instagram post 1" />
+      <div class="ig-overlay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      </div>
+    </a>
+    <a class="ig-item reveal reveal-delay-1" href="https://www.instagram.com/duolens.official" target="_blank">
+      <img src="https://images.unsplash.com/photo-1590831563685-8d94f056f68f?q=80&w=1069&auto=format&fit=crop" alt="Instagram post 2" />
+      <div class="ig-overlay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      </div>
+    </a>
+    <a class="ig-item reveal reveal-delay-2" href="https://www.instagram.com/duolens.official" target="_blank">
+      <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&q=80&fm=jpg&fit=crop" alt="Instagram post 3" />
+      <div class="ig-overlay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      </div>
+    </a>
+    <a class="ig-item reveal reveal-delay-3" href="https://www.instagram.com/duolens.official" target="_blank">
+      <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80&fm=jpg&fit=crop" alt="Instagram post 4" />
+      <div class="ig-overlay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      </div>
+    </a>
+    <a class="ig-item reveal reveal-delay-4" href="https://www.instagram.com/duolens.official" target="_blank">
+      <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=600&q=80&fm=jpg&fit=crop" alt="Instagram post 5" />
+      <div class="ig-overlay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section class="contact" id="contact">
+  <div class="contact-text">
+    <p class="section-label reveal">Get In Touch</p>
+    <h2 class="reveal reveal-delay-1">Let's Tell<br /><em>Your Story</em></h2>
+    <p class="reveal reveal-delay-2">Ready to capture your next moment? Whether it's a wedding, an event, or brand content—we'd love to hear about it.</p>
+
+    <div class="contact-detail reveal reveal-delay-2">
+      <div class="contact-detail-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6 6l.87-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.72 16z"/></svg>
+      </div>
+      <div class="contact-detail-info">
+        <span>WhatsApp</span>
+        <a href="https://wa.me/601126106945">+60 11-2610 6945</a>
+      </div>
+    </div>
+
+    <div class="contact-detail reveal reveal-delay-3">
+      <div class="contact-detail-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div class="contact-detail-info">
+        <span>Email</span>
+        <a href="mailto:hello@duolens.com">hello@duolens.com</a>
+      </div>
+    </div>
+
+    <div class="contact-detail reveal reveal-delay-4">
+      <div class="contact-detail-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div class="contact-detail-info">
+        <span>Location</span>
+        <p>Malaysia</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form-area reveal reveal-delay-2">
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" placeholder="Alexandra" />
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" placeholder="Chen" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" placeholder="hello@yourname.com" />
+    </div>
+    <div class="form-group">
+      <label>Event Type</label>
+      <select>
+        <option value="" disabled selected>Select a service</option>
+        <option>Wedding</option>
+        <option>Engagement Session</option>
+        <option>Portrait Session</option>
+        <option>Corporate Event</option>
+        <option>Brand Content</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Your Message</label>
+      <textarea placeholder="Tell us about your special day…"></textarea>
+    </div>
+    <button class="form-submit" onclick="alert('Message sent! We will be in touch soon.')">Send Enquiry →</button>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-text">Duo<span>Lens</span></span>
+      <p>Your story, told from every angle. Dual-lens photo and video coverage for life's most unforgettable moments.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/duolens.official" target="_blank">Instagram</a></li>
+        <li><a href="https://wa.me/601126106945" target="_blank">WhatsApp</a></li>
+        <li><a href="mailto:hello@duolens.com">Email Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <span>Duo Lens</span>. All rights reserved. Malaysia.</p>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/duolens.official" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      </a>
+      <a href="https://wa.me/601126106945" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </a>
+      <a href="mailto:hello@duolens.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .p-item, .ig-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); cursorRing.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); cursorRing.classList.remove('hover'); });
+  });
+
+  // Navbar scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
