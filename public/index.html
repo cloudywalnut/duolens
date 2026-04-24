@@ -125,6 +125,7 @@
     display: flex;
     align-items: flex-end;
     overflow: hidden;
+    margin-top: 80px;
   }
   .hero-bg {
     position: absolute; inset: 0;
@@ -218,28 +219,6 @@
     transition: border-color 0.3s, color 0.3s;
   }
   .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-
-  /* Secondary hero image */
-  .hero-aside {
-    position: absolute; right: 60px; bottom: 80px;
-    width: 260px; height: 360px;
-    z-index: 2;
-    overflow: hidden;
-    border: 1px solid rgba(201,168,76,0.25);
-    opacity: 0;
-    animation: fadeIn 1.2s ease 1.2s forwards;
-  }
-  .hero-aside img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: brightness(0.85) grayscale(20%);
-  }
-  .hero-aside::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(10,10,10,0.35) 0%, transparent 50%);
-    z-index: 1;
-  }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(30px); }
@@ -402,71 +381,152 @@
     margin-top: 4px;
     display: block;
   }
+  /* ─── REELS ─── */
+  .reels {
+    padding: 90px 48px;
+    background: var(--black);
+  }
+
+  .reels-header {
+    margin-bottom: 30px;
+  }
+
+  .reels-header h2 {
+    font-family: var(--font-serif);
+    font-size: 40px;
+    color: var(--white);
+    font-weight: 300;
+  }
+
+  .reels-header h2 em {
+    color: var(--gold);
+  }
+
+  .reels-container {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-bottom: 20px;
+  }
+
+  .reels-container::-webkit-scrollbar {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 48px;
+  }
+
+  .reel {
+    flex: 0 0 calc(33.333% - 10px);
+    scroll-snap-align: centre;
+    aspect-ratio: 9 / 16;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .reel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.45),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+
+  .reel:hover {
+    transform: scale(1.03);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .reel video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 
   /* ─── PORTFOLIO ─── */
   .portfolio {
-    padding: 130px 60px;
+    padding: 90px 48px;
     background: var(--black);
   }
+
   .portfolio-header {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    margin-bottom: 60px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 52px;
+    flex-wrap: wrap;
+    gap: 16px;
   }
+
   .portfolio-header h2 {
     font-family: var(--font-serif);
-    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-size: 42px;
     font-weight: 300;
     color: var(--white);
     line-height: 1.1;
+    margin: 0;
   }
   .portfolio-header h2 em { color: var(--gold); font-style: italic; }
+
   .portfolio-header p {
-    font-size: 0.78rem;
-    color: rgba(245,240,235,0.5);
-    max-width: 300px;
-    line-height: 1.8;
+    font-size: 12px;
+    color: rgba(245,240,235,0.45);
+    max-width: 260px;
+    line-height: 1.85;
     letter-spacing: 0.04em;
+    text-align: right;
+    margin: 0;
   }
 
   .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: auto;
-    gap: 12px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
   }
+  .p-item.portrait  { grid-column: span 2; aspect-ratio: 2 / 3; }
+  .p-item.landscape { grid-column: span 3; aspect-ratio: 3 / 2; }
+
   .p-item {
-    overflow: hidden;
     position: relative;
-    cursor: none;
+    overflow: hidden;
+    background: #111;
   }
+
   .p-item img {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
-    filter: grayscale(20%) brightness(0.8);
+    filter: grayscale(18%) brightness(0.78);
     transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease;
   }
-  .p-item:hover img { transform: scale(1.06); filter: grayscale(0%) brightness(0.9); }
+  .p-item:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0%) brightness(0.88);
+  }
+
   .p-item::after {
     content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(10,10,10,0.35) 0%, transparent 60%);
+    background: linear-gradient(to top, rgba(10,10,10,0.3) 0%, transparent 55%);
     opacity: 0;
     transition: opacity 0.4s;
+    pointer-events: none;
   }
   .p-item:hover::after { opacity: 1; }
-  .p-item-label {
-    position: absolute; bottom: 20px; left: 20px;
-    z-index: 2;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.4s, transform 0.4s;
-  }
-  .p-item:hover .p-item-label { opacity: 1; transform: translateY(0); }
+
   .p-item-border {
     position: absolute; inset: 0;
     border: 1px solid rgba(201,168,76,0);
@@ -474,15 +534,40 @@
     z-index: 3;
     pointer-events: none;
   }
-  .p-item:hover .p-item-border { border-color: rgba(201,168,76,0.4); }
+  .p-item:hover .p-item-border { border-color: rgba(201,168,76,0.45); }
 
-  /* Grid placements */
-  .p1 { grid-column: 1 / 6; grid-row: 1; height: 480px; }
-  .p2 { grid-column: 6 / 9; grid-row: 1; height: 480px; }
-  .p3 { grid-column: 9 / 13; grid-row: 1; height: 480px; }
-  .p4 { grid-column: 1 / 5; grid-row: 2; height: 360px; }
-  .p5 { grid-column: 5 / 9; grid-row: 2; height: 360px; }
-  .p6 { grid-column: 9 / 13; grid-row: 2; height: 360px; }
+  .p-item.portrait {
+    grid-column: span 2;
+    aspect-ratio: 2 / 3;
+  }
+
+  .p-item.landscape {
+    grid-column: span 3;
+    aspect-ratio: 3 / 2;
+  }
+
+  .portfolio-footer {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .btn-ghost-gold {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold);
+    background: none;
+    cursor: pointer;
+    transition: border-color 0.3s, background 0.3s;
+    font-family: var(--font-sans);
+    font-weight: 500;
+  }
+  .btn-ghost-gold:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
 
   /* ─── SERVICES ─── */
   .services {
@@ -834,12 +919,13 @@
     nav.scrolled { padding: 16px 28px; }
     .nav-links, .nav-cta { display: none; }
     .hero-content { padding: 0 28px 80px; }
-    .hero-aside { display: none; }
     .about { grid-template-columns: 1fr; padding: 80px 28px; gap: 50px; }
     .portfolio { padding: 80px 28px; }
     .portfolio-header { flex-direction: column; align-items: flex-start; gap: 16px; }
     .portfolio-grid { grid-template-columns: 1fr 1fr; }
-    .p1,.p2,.p3,.p4,.p5,.p6 { grid-column: auto; grid-row: auto; height: 240px; }
+    .p-item.portrait  { grid-column: span 1; aspect-ratio: 2/3; }
+    .p-item.landscape { grid-column: span 1; aspect-ratio: 3/2; }
+    .portfolio-header p { text-align: left; }
     .services { padding: 80px 28px; }
     .services-grid { grid-template-columns: 1fr 1fr; }
     .instagram { padding: 80px 28px; }
@@ -872,7 +958,7 @@
 <!-- ─── HERO ─── -->
 <section class="hero" id="home">
   <div class="hero-bg">
-    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=2000&q=80&fm=jpg&fit=crop" alt="Wedding photography" loading="eager" />
+    <img src="images/duolens.jpeg" alt="Duolens" loading="eager" />
   </div>
   <div class="hero-content">
     <p class="hero-eyebrow">Wedding &amp; Portrait Photography</p>
@@ -882,9 +968,6 @@
       <a href="#portfolio" class="btn-primary">View Work</a>
       <a href="#about" class="btn-ghost">Our Story</a>
     </div>
-  </div>
-  <div class="hero-aside">
-    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80&fm=jpg&fit=crop" alt="Wedding detail" />
   </div>
 </section>
 
@@ -915,9 +998,12 @@
     <p class="section-label reveal">About Us</p>
     <h2 class="reveal reveal-delay-1">Two Creatives,<br /><em>One Story</em></h2>
     <div class="gold-line reveal reveal-delay-2"></div>
-    <p class="reveal reveal-delay-2">Some moments happen in front of you. Others happen quietly in between. With our Duo Lens coverage, there are two of us—so while one captures the main moment, the other is focused on everything else.</p>
-    <p class="reveal reveal-delay-3">The reactions, the energy, the little details you didn't even realise were happening. Whether it's a wedding, an event, or content for your brand, moments move fast. Having two creatives means nothing gets missed.</p>
-    <p class="reveal reveal-delay-4">Not just photos. Your story—felt, replayed, and remembered.</p>
+    <p class="reveal reveal-delay-2">At Duo Lens, we believe every story deserves to be seen, felt, and remembered.</p>
+    <p class="reveal reveal-delay-3">We are a creative team driven by two perspectives, working as one to capture moments that matter. Specializing in both photography and videography, we create visuals that go beyond just content, we create experiences.</p>
+    <p class="reveal reveal-delay-4">From striking photography that captures raw emotion and detail, to cinematic videography that brings stories to life, our work is built on intention, creativity, and connection.</p>
+    <p class="reveal reveal-delay-5">Whether it’s content creation, real estate, weddings, or events, we focus on delivering visuals that don’t just look good, but leave a lasting impact.</p>
+    <p class="reveal reveal-delay-6">We don’t just shoot. We observe, we understand, and we craft every frame with purpose.</p>
+    <p class="reveal reveal-delay-7">Duo Lens isn’t just about cameras. It’s about perspective, passion, and the drive to keep creating, together.</p>
     <div style="margin-top:40px;" class="reveal reveal-delay-4">
       <a href="#contact" class="btn-primary">Work With Us</a>
     </div>
@@ -936,6 +1022,36 @@
   </div>
 </section>
 
+  <!-- ─── REELS SECTION ─── -->
+<section class="reels">
+  <div class="reels-header">
+    <p class="section-label">Reels</p>
+    <h2>Behind the <em>Scenes</em></h2>
+  </div>
+  <div class="reels-container">
+    <div class="reel">
+      <video src="reels/Commercial.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="reel">
+      <video src="reels/Real Estate.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="reel">
+      <video src="reels/Fashion.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="reel">
+      <video src="reels/Drone.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="reel">
+      <video src="reels/FnB.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="reel">
+      <video src="reels/Documentary.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
 <!-- ─── PORTFOLIO ─── -->
 <section class="portfolio" id="portfolio">
   <div class="portfolio-header">
@@ -945,37 +1061,48 @@
     </div>
     <p class="reveal reveal-delay-2">A glimpse into the moments we've been trusted to preserve forever.</p>
   </div>
+
   <div class="portfolio-grid">
-    <div class="p-item p1 reveal">
-      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80&fm=jpg&fit=crop&crop=faces" alt="Wedding ceremony" />
-      <div class="p-item-label">Wedding Ceremony</div>
+    <div class="p-item portrait reveal">
+      <img src="images/Z62_2599.jpg" alt="Portrait"/>
       <div class="p-item-border"></div>
     </div>
-    <div class="p-item p2 reveal reveal-delay-1">
-      <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=800&q=80&fm=jpg&fit=crop" alt="Wedding couple portrait" />
-      <div class="p-item-label">Couple Portrait</div>
+    <div class="p-item portrait reveal reveal-delay-1">
+      <img src="images/Z62_2710.jpg" alt="Portrait"/>
       <div class="p-item-border"></div>
     </div>
-    <div class="p-item p3 reveal reveal-delay-2">
-      <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=1000&q=80&fm=jpg&fit=crop" alt="Wedding reception" />
-      <div class="p-item-label">Reception</div>
+    <div class="p-item portrait reveal reval-delay-2">
+      <img src="images/Z62_2906.jpg" alt="Portrait"/>
       <div class="p-item-border"></div>
     </div>
-    <div class="p-item p4 reveal reveal-delay-1">
-      <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=80&fm=jpg&fit=crop" alt="Bride portrait" />
-      <div class="p-item-label">Bridal Portrait</div>
+    <div class="p-item landscape reveal">
+      <img src="images/Z62_0821.jpg" alt="Landscape"/>
       <div class="p-item-border"></div>
     </div>
-    <div class="p-item p5 reveal reveal-delay-2">
-      <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1000&q=80&fm=jpg&fit=crop" alt="Wedding details" />
-      <div class="p-item-label">Wedding Details</div>
+    <div class="p-item landscape reveal reveal-delay-1">
+      <img src="images/Z62_1813.jpg" alt="Landscape"/>
       <div class="p-item-border"></div>
     </div>
-    <div class="p-item p6 reveal reveal-delay-3">
-      <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800&q=80&fm=jpg&fit=crop" alt="Ceremony moment" />
-      <div class="p-item-label">The Ceremony</div>
+    <div class="p-item portrait reveal">
+      <img src="images/Z62_2964.JPG" alt="Portrait"/>
       <div class="p-item-border"></div>
     </div>
+    <div class="p-item portrait reveal reveal-delay-1">
+      <img src="images/Z62_3029.JPG" alt="Portrait"/>
+      <div class="p-item-border"></div>
+    </div>
+    <div class="p-item portrait reveal reveal-delay-2">
+      <img src="images/Z62_3248.jpg" alt="Portrait"/>
+      <div class="p-item-border"></div>
+    </div>
+    <div class="p-item landscape reveal">
+      <img src="images/Z62_1837.jpg" alt="Landscape"/>
+      <div class="p-item-border"></div>
+    </div>
+    <div class="p-item landscape reveal reveal-delay-1">
+      <img src="images/Z62_4190.JPG" alt="Landscape"/>
+      <div class="p-item-border"></div>
+    </div>  
   </div>
 </section>
 
@@ -1034,31 +1161,31 @@
   </div>
   <div class="instagram-row">
     <a class="ig-item reveal" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&q=80&fm=jpg&fit=crop" alt="Instagram post 1" />
+      <img src="images/Z62_4294-2.jpg" alt="Instagram post 1" />
       <div class="ig-overlay">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
       </div>
     </a>
     <a class="ig-item reveal reveal-delay-1" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="https://images.unsplash.com/photo-1590831563685-8d94f056f68f?q=80&w=1069&auto=format&fit=crop" alt="Instagram post 2" />
+      <img src="images/Z62_3780.jpg" alt="Instagram post 2" />
       <div class="ig-overlay">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
       </div>
     </a>
     <a class="ig-item reveal reveal-delay-2" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&q=80&fm=jpg&fit=crop" alt="Instagram post 3" />
+      <img src="images/Z62_4166.jpg" alt="Instagram post 3" />
       <div class="ig-overlay">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
       </div>
     </a>
     <a class="ig-item reveal reveal-delay-3" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80&fm=jpg&fit=crop" alt="Instagram post 4" />
+      <img src="images/Z62_3769.jpg" alt="Instagram post 4" />
       <div class="ig-overlay">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
       </div>
     </a>
     <a class="ig-item reveal reveal-delay-4" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=600&q=80&fm=jpg&fit=crop" alt="Instagram post 5" />
+      <img src="images/Z62_4158.jpg" alt="Instagram post 5" />
       <div class="ig-overlay">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
       </div>
@@ -1089,7 +1216,7 @@
       </div>
       <div class="contact-detail-info">
         <span>Email</span>
-        <a href="mailto:hello@duolens.com">hello@duolens.com</a>
+        <a href="mailto:duolens21@gmail.com">duolens21@gmail.com</a>
       </div>
     </div>
 
@@ -1160,7 +1287,7 @@
       <ul>
         <li><a href="https://www.instagram.com/duolens.official" target="_blank">Instagram</a></li>
         <li><a href="https://wa.me/601126106945" target="_blank">WhatsApp</a></li>
-        <li><a href="mailto:hello@duolens.com">Email Us</a></li>
+        <li><a href="mailto:duolens21@gmail.com">Email Us</a></li>
       </ul>
     </div>
   </div>
@@ -1173,7 +1300,7 @@
       <a href="https://wa.me/601126106945" target="_blank" aria-label="WhatsApp">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       </a>
-      <a href="mailto:hello@duolens.com" aria-label="Email">
+      <a href="mailto:duolens21@gmail.com" aria-label="Email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </a>
     </div>
