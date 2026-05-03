@@ -327,35 +327,45 @@
     position: relative;
     height: 560px;
   }
+
   .about-img-main {
     position: absolute;
     top: 0; right: 0;
-    width: 75%; height: 85%;
+    width: 75%;
+    height: 85%;
     overflow: hidden;
     border: 1px solid rgba(201,168,76,0.2);
   }
   .about-img-main img {
-    width: 100%; height: 100%;
-    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;        /* ← change from cover to contain */
+    object-position: center top; /* ← anchor to top so faces aren't cut */
     filter: grayscale(10%) brightness(0.92);
     transition: transform 0.8s ease;
+    background: #111;           /* ← fills letterbox areas */
   }
-  .about-img-main:hover img { transform: scale(1.04); }
+
   .about-img-secondary {
     position: absolute;
     bottom: 0; left: 0;
-    width: 48%; height: 50%;
+    width: 48%;
+    height: 50%;
     overflow: hidden;
     border: 1px solid rgba(201,168,76,0.3);
     outline: 1px solid rgba(201,168,76,0.08);
     outline-offset: 8px;
   }
   .about-img-secondary img {
-    width: 100%; height: 100%;
-    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;        /* ← same here */
+    object-position: center top;
     filter: grayscale(15%) brightness(0.9);
     transition: transform 0.8s ease;
+    background: #111;
   }
+
   .about-img-secondary:hover img { transform: scale(1.04); }
   .about-badge {
     position: absolute;
@@ -617,12 +627,12 @@
     font-family: var(--font-serif);
     font-size: 3.5rem;
     font-weight: 300;
-    color: rgba(201,168,76,0.12);
+    color: var(--white);
     line-height: 1;
     margin-bottom: 32px;
     transition: color 0.4s;
   }
-  .service-card:hover .service-number { color: rgba(201,168,76,0.25); }
+  .service-card:hover .service-number { color: var(--white); }
   .service-icon {
     width: 44px; height: 44px;
     margin-bottom: 24px;
@@ -640,62 +650,38 @@
   .service-card p {
     font-size: 0.78rem;
     line-height: 1.9;
-    color: rgba(245,240,235,0.5);
+    color: var(--white);
     letter-spacing: 0.03em;
   }
 
-  /* ─── INSTAGRAM ─── */
-  .instagram {
+
+  /* ─── PRICING SECTION ─── */
+  .pricing-section {
     padding: 130px 60px;
-    background: var(--black);
-  }
-  .instagram-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 48px;
-  }
-  .instagram-header h2 {
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 300;
-    color: var(--white);
-  }
-  .instagram-header h2 em { color: var(--gold); font-style: italic; }
-  .ig-handle {
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    color: var(--gold);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201,168,76,0.4);
-    padding-bottom: 3px;
-    transition: border-color 0.3s;
-  }
-  .ig-handle:hover { border-color: var(--gold); }
-  .instagram-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-  }
-  .ig-item {
-    aspect-ratio: 1;
-    overflow: hidden;
+    background: var(--white);
     position: relative;
+    overflow: hidden;
   }
-  .ig-item img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: grayscale(30%) brightness(0.75);
-    transition: transform 0.6s ease, filter 0.5s ease;
+  .pricing-section-header {
+    text-align: center;
+    margin-bottom: 60px;
   }
-  .ig-item:hover img { transform: scale(1.08); filter: grayscale(0%) brightness(0.9); }
-  .ig-overlay {
-    position: absolute; inset: 0;
-    background: rgba(10,10,10,0.35);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0;
-    transition: opacity 0.4s;
+  .pricing-section-header h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300;
+    color: var(--black);
+    margin-top: 12px;
   }
-  .ig-item:hover .ig-overlay { opacity: 1; }
-  .ig-overlay svg { color: var(--gold); width: 28px; height: 28px; opacity: 0.9; }
+  .pricing-section-header .section-label {
+    color: var(--black);
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    margin-bottom: 18px;
+  }
+  .pricing-section-header h2 em { color: var(--gold); font-style: italic; }
 
   /* ─── CONTACT ─── */
   .contact {
@@ -834,14 +820,15 @@
   }
   .pricing-video, .pricing-photo {
     padding: 40px;
-    background: rgba(10,10,10,0.02);
-    border: 1px solid rgba(201,168,76,0.15);
-    border-radius: 8px;
+    background: var(--white);
+    border: 1px solid rgba(10,10,10,0.08);
+    border-radius: 10px;
+    box-shadow: 0 18px 40px rgba(10,10,10,0.06);
   }
   .pricing-video h3, .pricing-photo h3 {
     font-family: var(--font-serif);
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--black);
     margin-bottom: 16px;
     text-align: left;
@@ -859,9 +846,9 @@
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(10,10,10,0.8);
+    color: rgba(10,10,10,0.9);
     margin: 32px 0 16px;
-    font-weight: 600;
+    font-weight: 700;
   }
   .pricing-video ul, .pricing-photo ul {
     list-style: none;
@@ -869,16 +856,17 @@
     margin: 0 0 20px;
   }
   .pricing-video ul li, .pricing-photo ul li {
-    font-size: 0.85rem;
-    color: var(--black);
-    margin-bottom: 8px;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    color: rgba(10,10,10,0.95);
+    margin-bottom: 10px;
+    line-height: 1.7;
     letter-spacing: 0.02em;
+    font-weight: 500;
   }
   .pricing-video p, .pricing-photo p {
-    font-size: 0.75rem;
-    color: rgba(10,10,10,0.7);
-    line-height: 1.7;
+    font-size: 0.76rem;
+    color: rgba(10,10,10,0.78);
+    line-height: 1.75;
     margin: 16px 0;
     font-style: italic;
   }
@@ -890,18 +878,21 @@
   }
   .pricing-download a {
     font-size: 0.8rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--white);
     text-decoration: none;
-    border: 1px solid var(--gold);
-    padding: 12px 24px;
-    transition: background 0.3s, color 0.3s;
+    background: var(--black);
+    border: 1px solid var(--black);
+    padding: 14px 26px;
+    transition: background 0.3s, color 0.3s, transform 0.3s;
     display: inline-block;
+    font-weight: 700;
   }
   .pricing-download a:hover {
     background: var(--gold);
     color: var(--black);
+    transform: translateY(-1px);
   }
 
   /* ─── FOOTER ─── */
@@ -1009,8 +1000,7 @@
     .portfolio-header p { text-align: left; }
     .services { padding: 80px 28px; }
     .services-grid { grid-template-columns: 1fr 1fr; }
-    .instagram { padding: 80px 28px; }
-    .instagram-row { grid-template-columns: repeat(3, 1fr); }
+    .pricing-section { padding: 80px 28px; }
     .contact { grid-template-columns: 1fr; padding: 80px 28px; gap: 60px; }
     .pricing-table {
       overflow-x: auto;
@@ -1041,6 +1031,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#portfolio">Portfolio</a></li>
     <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Book Now</a>
@@ -1202,7 +1193,7 @@
 <!-- ─── SERVICES ─── -->
 <section class="services" id="services">
   <div class="services-header">
-    <p class="section-label reveal" style="justify-content:center;">What We Do</p>
+    <p class="section-label reveal" style="justify-content:center; color:#ffffff; font-weight:500;">What We Do</p>
     <h2 class="reveal reveal-delay-1">Built For <em>Every Moment</em></h2>
   </div>
   <div class="services-grid">
@@ -1241,46 +1232,59 @@
   </div>
 </section>
 
-<!-- ─── INSTAGRAM ─── -->
-<section class="instagram" id="instagram">
-  <div class="instagram-header">
-    <div>
-      <p class="section-label reveal">Follow Along</p>
-      <h2 class="reveal reveal-delay-1">On <em>Instagram</em></h2>
-    </div>
-    <a href="https://www.instagram.com/duolens.official" target="_blank" class="ig-handle reveal reveal-delay-2">@duolens.official</a>
+
+<!-- ─── PRICING ─── -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-section-header">
+    <p class="section-label reveal" style="justify-content:center;">Pricing - <strong>Limited Time Offer</strong></p>
+    <h2 class="reveal reveal-delay-1">Our <em>Rates</em></h2>
   </div>
-  <div class="instagram-row">
-    <a class="ig-item reveal" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="images/Z62_4294-2.jpg" alt="Instagram post 1" />
-      <div class="ig-overlay">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-      </div>
-    </a>
-    <a class="ig-item reveal reveal-delay-1" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="images/Z62_3780.jpg" alt="Instagram post 2" />
-      <div class="ig-overlay">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-      </div>
-    </a>
-    <a class="ig-item reveal reveal-delay-2" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="images/Z62_4166.jpg" alt="Instagram post 3" />
-      <div class="ig-overlay">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-      </div>
-    </a>
-    <a class="ig-item reveal reveal-delay-3" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="images/Z62_3769.jpg" alt="Instagram post 4" />
-      <div class="ig-overlay">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-      </div>
-    </a>
-    <a class="ig-item reveal reveal-delay-4" href="https://www.instagram.com/duolens.official" target="_blank">
-      <img src="images/Z62_4158.jpg" alt="Instagram post 5" />
-      <div class="ig-overlay">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-      </div>
-    </a>
+  <div class="pricing-table" style="margin-top:0; padding-top:0; border-top:none;">
+    <div class="pricing-video reveal">
+      <h3>VIDEO</h3>
+      <h4>PRODUCTION RATES</h4>
+      <ul>
+        <li>Up to 60 seconds Video : RM150*</li>
+        <li>Up to 3 minutes Video : RM400*</li>
+      </ul>
+      <h5>Includes:</h5>
+      <ul>
+        <li>Basic Color Grading</li>
+        <li>Music & Sound Sync</li>
+        <li>Clean Transitions</li>
+        <li>Captions</li>
+        <li>HD / 4k Export</li>
+      </ul>
+      <p>(Custom pricing available for videos longer than 3 minutes).</p>
+      <p>A 50% deposit is required to secure your booking</p>
+    </div>
+
+    <div class="pricing-photo reveal reveal-delay-1">
+      <h3>PHOTO</h3>
+      <h4>PRODUCTION RATES</h4>
+      <ul>
+        <li>Photo Shoot : RM200 / hour</li>
+        <li>Up to 75 Edited Photos : RM375*</li>
+        <li>Up to 150 Edited Photos : RM700*</li>
+      </ul>
+      <h5>Includes:</h5>
+      <ul>
+        <li>Photos delivered within 2–4 working days</li>
+        <li>Clean edits with basic color correction</li>
+        <li>High-resolution photos via Google Drive (FREE)</li>
+        <li>Hard drive delivery available upon request</li>
+        <li>DM / WhatsApp to book</li>
+      </ul>
+      <p>(Above 300 photos will be charged RM10 per photo)</p>
+      <ul>
+        <li>Up to 300 Edited Photos : RM1300*</li>
+      </ul>
+      <p>A 50% deposit is required to secure your booking</p>
+    </div>
+
+    <div class="pricing-download reveal">
+      <a href="pdfs/Duolens-Pricing.pdf" download>Download Full Pricing PDF</a>
+    </div>
   </div>
 </section>
 
@@ -1356,54 +1360,6 @@
     <button class="form-submit" onclick="alert('Message sent! We will be in touch soon.')">Send Enquiry →</button>
   </div>
 
-  <!-- ─── PRICING ─── -->
-  <div class="pricing-table">
-    <div class="pricing-video">
-      <h3>VIDEO</h3>
-      <h4>PRODUCTION RATES</h4>
-      <ul>
-        <li>Up to 60 seconds Video : RM150*</li>
-        <li>Up to 3 minutes Video : RM400*</li>
-      </ul>
-      <h5>Includes:</h5>
-      <ul>
-        <li>Basic Color Grading</li>
-        <li>Music & Sound Sync</li>
-        <li>Clean Transitions</li>
-        <li>Captions</li>
-        <li>HD / 4k Export</li>
-      </ul>
-      <p>(Custom pricing available for videos longer than 3 minutes).</p>
-      <p>A 50% deposit is required to secure your booking</p>
-    </div>
-
-    <div class="pricing-photo">
-      <h3>PHOTO</h3>
-      <h4>PRODUCTION RATES</h4>
-      <ul>
-        <li>Photo Shoot : RM200 / hour</li>
-        <li>Up to 75 Edited Photos : RM375*</li>
-        <li>Up to 150 Edited Photos : RM700*</li>
-      </ul>
-      <h5>Includes:</h5>
-      <ul>
-        <li>Photos delivered within 2–4 working days</li>
-        <li>Clean edits with basic color correction</li>
-        <li>High-resolution photos via Google Drive (FREE)</li>
-        <li>Hard drive delivery available upon request</li>
-        <li>DM / WhatsApp to book</li>
-      </ul>
-      <p>(Above 300 photos will be charged RM10 per photo)</p>
-      <ul>
-        <li>Up to 300 Edited Photos : RM1300*</li>
-      </ul>
-      <p>A 50% deposit is required to secure your booking</p>
-    </div>
-  </div>
-
-  <div class="pricing-download">
-    <a href="pdfs/duolens-pricing.pdf" download>Download Full Pricing PDF</a>
-  </div>
 </section>
 
 <!-- ─── FOOTER ─── -->
@@ -1419,6 +1375,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#services">Services</a></li>
+        <li><a href="#pricing">Pricing</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
