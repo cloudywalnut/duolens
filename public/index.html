@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Duo Lens — Wedding & Photography</title>
+<title>Duo Lens — Photography & Videography</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -823,6 +823,87 @@
   }
   .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
 
+  .pricing-table {
+    grid-column: 1 / -1;
+    margin-top: 80px;
+    padding-top: 60px;
+    border-top: 1px solid rgba(10,10,10,0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  .pricing-video, .pricing-photo {
+    padding: 40px;
+    background: rgba(10,10,10,0.02);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 8px;
+  }
+  .pricing-video h3, .pricing-photo h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 16px;
+    text-align: left;
+  }
+  .pricing-video h4, .pricing-photo h4 {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .pricing-video h5, .pricing-photo h5 {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(10,10,10,0.8);
+    margin: 32px 0 16px;
+    font-weight: 600;
+  }
+  .pricing-video ul, .pricing-photo ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+  }
+  .pricing-video ul li, .pricing-photo ul li {
+    font-size: 0.85rem;
+    color: var(--black);
+    margin-bottom: 8px;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+  .pricing-video p, .pricing-photo p {
+    font-size: 0.75rem;
+    color: rgba(10,10,10,0.7);
+    line-height: 1.7;
+    margin: 16px 0;
+    font-style: italic;
+  }
+
+  .pricing-download {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: 40px;
+  }
+  .pricing-download a {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid var(--gold);
+    padding: 12px 24px;
+    transition: background 0.3s, color 0.3s;
+    display: inline-block;
+  }
+  .pricing-download a:hover {
+    background: var(--gold);
+    color: var(--black);
+  }
+
   /* ─── FOOTER ─── */
   footer {
     background: var(--black);
@@ -931,6 +1012,16 @@
     .instagram { padding: 80px 28px; }
     .instagram-row { grid-template-columns: repeat(3, 1fr); }
     .contact { grid-template-columns: 1fr; padding: 80px 28px; gap: 60px; }
+    .pricing-table {
+      overflow-x: auto;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .pricing-video, .pricing-photo {
+      min-width: 280px;
+    }
+    .reels { padding: 60px 20px; }
+    .reel { flex: 0 0 100%; }
     footer { padding: 50px 28px 32px; }
     .footer-inner { grid-template-columns: 1fr; gap: 40px; }
     .gold-divider { margin: 0 28px; }
@@ -958,10 +1049,10 @@
 <!-- ─── HERO ─── -->
 <section class="hero" id="home">
   <div class="hero-bg">
-    <img src="images/duolens.jpeg" alt="Duolens" loading="eager" />
+    <img src="images/Z62_4190.JPG" alt="Duolens" loading="eager" />
   </div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Wedding &amp; Portrait Photography</p>
+    <p class="hero-eyebrow">Photography & Videography</p>
     <h1 class="hero-title">Your Story,<br />Told From<br /><em>Every Angle</em></h1>
     <p class="hero-sub">Two creatives. One seamless story. We capture both photo and video so nothing gets missed—from the big highlights to the quiet in-betweens.</p>
     <div class="hero-actions">
@@ -1010,13 +1101,13 @@
   </div>
   <div class="about-images reveal reveal-delay-2">
     <div class="about-img-main">
-      <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80&fm=jpg&fit=crop" alt="Wedding photography" />
+      <img src="images/hussain.png" alt="Hussain" />
     </div>
     <div class="about-img-secondary">
-      <img src="https://images.unsplash.com/photo-1590831563685-8d94f056f68f?q=80&w=1069&auto=format&fit=crop" alt="Wedding detail ring" />
+      <img src="images/burhan.jpeg" alt="Burhan" />
     </div>
     <div class="about-badge">
-      <span class="number">8+</span>
+      <span class="number">1+</span>
       <span class="label">Years of<br />Excellence</span>
     </div>
   </div>
@@ -1263,6 +1354,55 @@
       <textarea placeholder="Tell us about your special day…"></textarea>
     </div>
     <button class="form-submit" onclick="alert('Message sent! We will be in touch soon.')">Send Enquiry →</button>
+  </div>
+
+  <!-- ─── PRICING ─── -->
+  <div class="pricing-table">
+    <div class="pricing-video">
+      <h3>VIDEO</h3>
+      <h4>PRODUCTION RATES</h4>
+      <ul>
+        <li>Up to 60 seconds Video : RM150*</li>
+        <li>Up to 3 minutes Video : RM400*</li>
+      </ul>
+      <h5>Includes:</h5>
+      <ul>
+        <li>Basic Color Grading</li>
+        <li>Music & Sound Sync</li>
+        <li>Clean Transitions</li>
+        <li>Captions</li>
+        <li>HD / 4k Export</li>
+      </ul>
+      <p>(Custom pricing available for videos longer than 3 minutes).</p>
+      <p>A 50% deposit is required to secure your booking</p>
+    </div>
+
+    <div class="pricing-photo">
+      <h3>PHOTO</h3>
+      <h4>PRODUCTION RATES</h4>
+      <ul>
+        <li>Photo Shoot : RM200 / hour</li>
+        <li>Up to 75 Edited Photos : RM375*</li>
+        <li>Up to 150 Edited Photos : RM700*</li>
+      </ul>
+      <h5>Includes:</h5>
+      <ul>
+        <li>Photos delivered within 2–4 working days</li>
+        <li>Clean edits with basic color correction</li>
+        <li>High-resolution photos via Google Drive (FREE)</li>
+        <li>Hard drive delivery available upon request</li>
+        <li>DM / WhatsApp to book</li>
+      </ul>
+      <p>(Above 300 photos will be charged RM10 per photo)</p>
+      <ul>
+        <li>Up to 300 Edited Photos : RM1300*</li>
+      </ul>
+      <p>A 50% deposit is required to secure your booking</p>
+    </div>
+  </div>
+
+  <div class="pricing-download">
+    <a href="pdfs/duolens-pricing.pdf" download>Download Full Pricing PDF</a>
   </div>
 </section>
 
