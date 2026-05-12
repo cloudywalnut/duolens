@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Duo Lens — Photography & Videography</title>
+<link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -1301,7 +1302,7 @@
       </div>
       <div class="contact-detail-info">
         <span>WhatsApp</span>
-        <a href="https://wa.me/601126106945">+60 11-2610 6945</a>
+        <a href="https://wa.me/601126106945">+60 11-2610 6945 | +60 14-662 7268</a>
       </div>
     </div>
 
@@ -1326,24 +1327,51 @@
     </div>
   </div>
 
-  <div class="contact-form-area reveal reveal-delay-2">
+  <form 
+    action="https://formsubmit.co/duolens21@gmail.com" 
+    method="POST"
+    class="contact-form-area reveal reveal-delay-2"
+  >
+
+    <!-- Optional Hidden Settings -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="New Photography Enquiry">
+
     <div class="form-row">
       <div class="form-group">
         <label>First Name</label>
-        <input type="text" placeholder="Alexandra" />
+        <input 
+          type="text" 
+          name="first_name"
+          placeholder="Alexandra" 
+          required 
+        />
       </div>
+
       <div class="form-group">
         <label>Last Name</label>
-        <input type="text" placeholder="Chen" />
+        <input 
+          type="text" 
+          name="last_name"
+          placeholder="Chen" 
+          required 
+        />
       </div>
     </div>
+
     <div class="form-group">
       <label>Email Address</label>
-      <input type="email" placeholder="hello@yourname.com" />
+      <input 
+        type="email" 
+        name="email"
+        placeholder="hello@yourname.com" 
+        required 
+      />
     </div>
+
     <div class="form-group">
       <label>Event Type</label>
-      <select>
+      <select name="event_type" required>
         <option value="" disabled selected>Select a service</option>
         <option>Wedding</option>
         <option>Engagement Session</option>
@@ -1353,12 +1381,20 @@
         <option>Other</option>
       </select>
     </div>
+
     <div class="form-group">
       <label>Your Message</label>
-      <textarea placeholder="Tell us about your special day…"></textarea>
+      <textarea 
+        name="message"
+        placeholder="Tell us about your special day…"
+        required
+      ></textarea>
     </div>
-    <button class="form-submit" onclick="alert('Message sent! We will be in touch soon.')">Send Enquiry →</button>
-  </div>
+
+    <button type="submit" class="form-submit" onclick="alert('Message sent! We will be in touch soon.')">
+      Send Enquiry →
+    </button>
+  </form>
 
 </section>
 
